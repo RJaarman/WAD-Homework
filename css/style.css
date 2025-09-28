@@ -1,0 +1,83 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #bfbfbf;
+  padding: 10px 20px;
+  border-radius: 6px;
+}
+
+.nav-left a {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+  margin: 0 5px;
+}
+
+.divider {
+  margin: 0 5px;
+  color: black;
+}
+
+.nav-right a {
+  color: black;
+  font-size: 24px;
+}
+.nav-link {
+  color: black;               
+  text-decoration: none;       
+  padding: 5px 10px;
+  border-radius: 4px;
+  transition: background-color 0.3s, color 0.3s; 
+}
+
+/* On hover */
+.nav-link:hover {
+  background-color: #003399;   
+  color: white;                
+}
+.posts {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 32px auto;
+  max-width: 400px;
+}
+.post-card {
+  background: #eaeaea;
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.07);
+}
+.post-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.avatar {
+  border-radius: 50%;
+}
+.post-date {
+  font-size: 0.9em;
+  color: #888;
+}
+.post-image {
+  width: 100%;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+.post-body {
+  margin-bottom: 8px;
+  font-size: 1em;
+}
+.post-footer {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+    justify-content: flex-end; 
+}
+.like-icon {
+  cursor: pointer;
+  align-items: right;
+}
