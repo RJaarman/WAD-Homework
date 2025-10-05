@@ -217,3 +217,72 @@ footer {
   margin: 3px;
   font-weight: 500;
 }
+
+@media (max-width: 600px) {
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  nav {
+    padding: 8px;
+    border-radius: 8px;
+  }
+
+  .nav-left a {
+    font-size: 16px;
+  }
+
+  .posts {
+    max-width: 340px;
+    margin: 12px auto;
+    gap: 12px;
+  }
+
+  .post-card {
+    padding: 10px;
+  }
+
+  .post-header > img {
+    width: 28px;
+  }
+
+  .post-date {
+    font-size: 0.85em;
+  }
+
+  textarea {
+    font-size: 14px;
+  }
+
+  .login-form input {
+    width: 140px;
+  }
+
+  .file-group label,
+  .button-row button {
+    padding: 6px 12px;
+    font-size: 14px;
+  }
+
+  .file-group {
+    position: relative;
+    z-index: 9999;
+  }
+
+  .file-group label {
+    display: inline-block;
+    width: auto;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  footer {
+    font-size: 16px;
+    padding: 8px;
+  }
+}
