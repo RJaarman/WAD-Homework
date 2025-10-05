@@ -8,27 +8,31 @@
 </head>
 <body>
 
-  <nav class="navbar">
+  <nav>
     <div class="nav-left">
       <a href="index.html" class="nav-link">Home</a>
     </div>
     <div class="nav-right">
-      <a href="login.html">
-       <a href="login.html"><img src="../res/images/profile.png" width="32" height="32" alt="My picture"></a>
+       <a href="login.html"><img src="../res/images/profile.png" alt="My picture"></a>
       </a>
     </div>
   </nav>
 
-  <div class="form-container">
-    <form onsubmit="window.location.href='index.html'; return false;">
-      <label for="postBody">Post body</label><br>
-      <textarea id="postBody" name="postBody" rows="4" cols="30"></textarea><br><br>
-
-      <label for="file">Select file</label>
-      <input type="file" id="file" name="file"><br><br>
-
-      <button type="submit">Create post</button>
-    </form>
+  <div class="center-box">
+    <div class="form-container">
+      <form class="addpost-form" action="index.html">
+        <label for="postBody">Post body</label>
+        <textarea id="postBody" name="postBody" rows="5" cols="21" placeholder="textarea"></textarea>
+        <label>Select file</label>
+        <div class="file-group">
+          <label for="file">Choose file</label>
+          <input type="file" id="file" name="file">
+        </div>
+        <div class="button-row">
+          <button type="submit">Create post</button>
+        </div>
+      </form>
+    </div>
   </div>
 
 </body>
