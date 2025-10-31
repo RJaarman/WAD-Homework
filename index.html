@@ -14,17 +14,27 @@
       <span id="divider">|</span>
       <a href="addpost.html" class="nav-link" >addPost</a>
     </div>
-    <div class="nav-right">
-      <a href="login.html"><img src="res/images/profile.png" alt="My picture"></a>
-    </div>
+      <div class="nav-right">
+          <div class="profile-wrapper">
+              <img src="res/images/profile.png" alt="Profile" class="profile-pic" id="profile-btn">
+              <div class="dropdown" id="profile-dropdown">
+                  <div class="dropdown-header">
+                      <p class="dropdown-name">John Doe</p>
+                      <p class="dropdown-email">john.doe@example.com</p>
+                  </div>
+                  <button class="dropdown-item" onclick="window.location.href='login.html'">User page</button>
+                  <button class="dropdown-item">Logout</button>
+              </div>
+          </div>
+      </div>
   </nav>
-
  <div class="posts" id="posts-container"></div>
-<script src="res/scripts/posts.js"></script>//see js on vaja teha
+<script src="res/scripts/posts.js"></script>
+  <!-- see js on vaja teha -->
 </body>
 </html>
-//online json faili link on see https://api.jsonbin.io/v3/b/69029734ae596e708f36a304, aga vist peab midagi sellist 
-//kasutama et see töötaks jsiga?
-//GET https://api.jsonbin.io/v3/b/69029734ae596e708f36a304
+<!-- online json faili link on see https://api.jsonbin.io/v3/b/69029734ae596e708f36a304, aga vist peab midagi sellist
+kasutama et see töötaks jsiga?
+GET https://api.jsonbin.io/v3/b/69029734ae596e708f36a304
 Headers:
-  X-Master-Key: $2a$10$D3uNRrk49ku.x.jU1JVcUeQyHcW7KA6iW7nD4.lmvxAFvh0AB6ef.
+  X-Master-Key: $2a$10$D3uNRrk49ku.x.jU1JVcUeQyHcW7KA6iW7nD4.lmvxAFvh0AB6ef. -->
