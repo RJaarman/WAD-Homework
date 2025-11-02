@@ -4,6 +4,7 @@
 const POSTS_API_URL = "https://api.jsonbin.io/v3/b/69029734ae596e708f36a304";
 const MASTER_KEY = "$2a$10$D3uNRrk49ku.x.jU1JVcUeQyHcW7KA6iW7nD4.lmvxAFvh0AB6ef.";
 
+/* 
 async function fetchPosts() {
   try {
     const response = await fetch(POSTS_API_URL, {
@@ -16,6 +17,21 @@ async function fetchPosts() {
   } catch (error) {
     console.error("Error fetching posts:", error);
     document.getElementById("posts-container").textContent = "Failed to load posts.";
+  }
+}
+
+*/
+
+async function fetchPosts() {
+  try {
+    const response = await fetch("res/data/posts.json");
+    if (!response.ok) throw new Error('HTTP error! ${response.status}');
+
+    const data = await response.json();
+    renderPosts(data);
+  } catch(error) {
+    console.error("Error fetching local posts: ", error);
+    document.getElementById("posts-container").textContent = "Failed to load local posts.";
   }
 }
 
