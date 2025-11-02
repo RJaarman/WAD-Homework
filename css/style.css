@@ -359,7 +359,10 @@ footer {
 
 /* ===== Nicer posts area ===== */
 body {
-    background: #edf0f4;
+    font-family: 'Poppins', sans-serif;
+    background: #f4f6f8;
+    color: #222;
+    margin: 0;
 }
 
 .posts {
