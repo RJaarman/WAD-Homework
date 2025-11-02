@@ -1,6 +1,4 @@
 
-// posts.js — Uses a <template> defined in index.html (no innerHTML, no createElement)
-
 const POSTS_API_URL = "https://api.jsonbin.io/v3/b/69029734ae596e708f36a304";
 const MASTER_KEY = "$2a$10$D3uNRrk49ku.x.jU1JVcUeQyHcW7KA6iW7nD4.lmvxAFvh0AB6ef.";
 
