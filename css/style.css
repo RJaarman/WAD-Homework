@@ -381,6 +381,7 @@ body {
     border: 1px solid rgba(0,0,0,0.02);
 }
 
+
 .post-header {
     display: flex;
     align-items: center;
@@ -405,7 +406,7 @@ body {
 
 .post-img {
     width: 100%;
-    max-height: 280px;
+    max-height: 100%;
     object-fit: cover;
     border-radius: 12px;
     margin-bottom: 8px;
@@ -423,4 +424,21 @@ nav {
     background: #ffffff;
     border: 1px solid rgba(0,0,0,0.02);
     box-shadow: 0 10px 40px rgba(0,0,0,0.04);
+}
+.post-card {
+  position: relative;
+}
+.like-icon {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  width: 28px;
+  height: 28px;
+  opacity: 0.7;
+  cursor: pointer;
+  transition: transform 0.15s ease, opacity 0.2s ease;
+}
+.like-icon:hover {
+  transform: scale(1.1);
+  opacity: 1;
 }
