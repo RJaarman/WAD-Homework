@@ -3,25 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Homework</title>
+  <title>Signup</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
 <div id="header"></div>
 
- <div class="posts" id="posts-container"></div>
-<template id="post-template">
-  <div class="post-card">
-    <div class="post-header">
-      <img class="profile-pic" alt="Profile">
-      <div class="post-time"></div>
-    </div>
-    <img class="post-img" alt="Post image" style="display:none;">
-    <p class="post-text"></p>
-    <img src="res/images/like.png" alt="Like" class="like-icon">
+<div class="center-box">
+  <div class="form-container" id="signup">
+    <h2>Create an account</h2>
+
+    <form class="login-form" action="index.html">
+      <label>Email</label>
+      <input type="email" placeholder="Email" required><br>
+
+      <label>Password</label>
+      <input type="password" placeholder="Password" required><br>
+
+      <button type="submit">Signup</button>
+    </form>
+
   </div>
-</template>
+</div>
+
 <div id="footer"></div>
 <script>
 
@@ -30,6 +35,7 @@
     .then(html => {
       document.getElementById("header").innerHTML = html;
 
+      // ⭐ Load dropdown script AFTER header is inserted
       const script = document.createElement("script");
       script.src = "res/scripts/dropdown.js";
       document.body.appendChild(script);
@@ -40,6 +46,5 @@
     .then(html => document.getElementById("footer").innerHTML = html);
 </script>
 
-<script src="res/scripts/posts.js"></script>
 </body>
 </html>

@@ -7,26 +7,7 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <nav>
-        <div class="nav-left">
-            <a href="index.html" class="nav-link">Home</a>
-            <span id="divider">|</span>
-            <a href="addpost.html" class="nav-link">addPost</a>
-        </div>
-        <div class="nav-right">
-            <div class="profile-wrapper">
-                <img src="res/images/profile.png" alt="Profile" class="profile-pic" id="profile-btn">
-                <div class="dropdown" id="profile-dropdown">
-                    <div class="dropdown-header">
-                        <p class="dropdown-name">John Doe</p>
-                        <p class="dropdown-email">john.doe@example.com</p>
-                    </div>
-                    <button class="dropdown-item" onclick="window.location.href='login.html'">User page</button>
-                    <button class="dropdown-item">Logout</button>
-                </div>
-            </div>
-        </div>
-    </nav>
+<div id="header"></div>
   <div class="center-box">
     <div class="form-container" id="login">
       <h2>Welcome to PostIt</h2>
@@ -41,7 +22,26 @@
       <a class="blue-link">Forgot password?</a>
     </div>
   </div>
-    <script src="res/scripts/posts.js"></script>
-    <script src="res/scripts/dropdown.js"></script>
+  <div id="footer"></div>
+<script>
+
+  fetch("components/header.html")
+    .then(r => r.text())
+    .then(html => {
+      document.getElementById("header").innerHTML = html;
+
+   
+      const script = document.createElement("script");
+      script.src = "res/scripts/dropdown.js";
+      document.body.appendChild(script);
+    });
+
+
+  fetch("components/footer.html")
+    .then(r => r.text())
+    .then(html => document.getElementById("footer").innerHTML = html);
+</script>
+
+<script src="res/scripts/posts.js"></script>
 </body>
 </html>
