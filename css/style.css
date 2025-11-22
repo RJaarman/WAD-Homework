@@ -442,3 +442,30 @@ nav {
   transform: scale(1.1);
   opacity: 1;
 }
+.form-row {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 10px;
+}
+
+.form-row label {
+  width: 100px;
+  text-align: right;
+}
+
+.button-center {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.error-msg {
+  display: none;
+  color: rgb(200, 0, 0);
+  font-size: 14px;
+  margin-top: 6px;
+  margin-bottom: 4px;
+  line-height: 1.4;
+}
+
