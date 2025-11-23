@@ -461,8 +461,7 @@ nav {
 }
 
 .error-msg {
-  display: none;
-  color: rgb(200, 0, 0);
+  color: rgb(198, 84, 84);
   font-size: 14px;
   margin-top: 6px;
   margin-bottom: 4px;

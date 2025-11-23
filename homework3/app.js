@@ -172,11 +172,21 @@ const SignupPage = {
             
             return errors;
         },
+        validateEmail(email) {
+            // simple but correct email regex
+            const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return pattern.test(email);
+        },
         handleSignup() {
             // Clear previous errors
             this.errorMessage = '';
-            
-            // Check if emails match
+
+            // Email format check
+            if (!this.validateEmail(this.email)) {
+                this.errorMessage = "Email format is invalid";
+                return;
+            }
+            // Emails match check
             if (this.email !== this.confirmEmail) {
                 this.errorMessage = "Emails do not match";
                 return;
