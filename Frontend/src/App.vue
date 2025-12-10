@@ -1,10 +1,4 @@
 <template>
-  <nav>
-    <router-link to="api/homeview">Home</router-link> |
-    <!-- <router-link to="api/signup">SignUp</router-link> | -->
-    <!-- <router-link to="api/login">LogIn</router-link> | -->
-    <router-link to="api/about">Contacts</router-link>
-  </nav>
   <router-view />
 </template>
 

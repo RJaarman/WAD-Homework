@@ -16,7 +16,7 @@ const routes = [{
         beforeEnter: async(to, from, next) => {
             let authResult = await auth.authenticated();
             if (!authResult) {
-                next('/login')
+                next('/api/login')
             } else {
                 next();
             }
@@ -26,11 +26,27 @@ const routes = [{
         path: "/api/apost/:id",
         name: "APost",
         component: APost,
+        beforeEnter: async(to, from, next) => {
+            let authResult = await auth.authenticated();
+            if (!authResult) {
+                next('/api/login')
+            } else {
+                next();
+            }
+        }
     },
     {
         path: "/api/addpost",
         name: "AddPost",
         component: AddPost,
+        beforeEnter: async(to, from, next) => {
+            let authResult = await auth.authenticated();
+            if (!authResult) {
+                next('/api/login')
+            } else {
+                next();
+            }
+        }
     },
     {
         path: "/api/signup",

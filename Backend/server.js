@@ -28,10 +28,12 @@ app.post('/api/posts', async(req, res) => {
     try {
         console.log("a post request has arrived");
         const post = req.body;
+        // Insert only body; created_at is handled by DB default
         const newpost = await pool.query(
-            "INSERT INTO posttable(title, body, urllink) values ($1, $2, $3)    RETURNING*", [post.title, post.body, post.urllink]
+            "INSERT INTO posttable(body) values ($1) RETURNING *", [post.body]
         );
-        req.json(newpost);
+        // respond with the created post
+        res.status(201).json(newpost.rows[0]);
     } catch (err) {
         console.error(err.message);
     }
@@ -41,7 +43,7 @@ app.get('/api/posts', async(req, res) => {
     try {
         console.log("get posts request has arrived");
         const posts = await pool.query(
-            "SELECT * FROM posttable"
+            "SELECT * FROM posttable ORDER BY created_at DESC"
         );
         res.json(posts.rows);
     } catch (err) {
@@ -68,9 +70,9 @@ app.put('/api/posts/:id', async(req, res) => {
         const post = req.body;
         console.log("update request has arrived");
         const updatepost = await pool.query(
-            "UPDATE posttable SET (title, body, urllink) = ($2, $3, $4) WHERE id = $1 RETURNING*", [id, post.title, post.body, post.urllink]
+            "UPDATE posttable SET body = $2 WHERE id = $1 RETURNING *", [id, post.body]
         );
-        res.json(updatepost);
+        res.json(updatepost.rows[0]);
     } catch (err) {
         console.error(err.message);
     }
@@ -139,8 +141,7 @@ app.post('/auth/signup', async(req, res) => {
         res
             .status(201)
             .cookie('jwt', token, { maxAge: 6000000, httpOnly: true })
-            .json({ user_id: authUser.rows[0].id })
-            .send;
+            .json({ user_id: authUser.rows[0].id });
     } catch (err) {
         console.error(err.message);
         res.status(400).send(err.message);
@@ -173,8 +174,7 @@ app.post('/auth/login', async(req, res) => {
         res
             .status(201)
             .cookie('jwt', token, { maxAge: 6000000, httpOnly: true })
-            .json({ user_id: user.rows[0].id })
-            .send;
+            .json({ user_id: user.rows[0].id });
     } catch (error) {
         res.status(401).json({ error: error.message });
     }
@@ -183,7 +183,7 @@ app.post('/auth/login', async(req, res) => {
 //logout a user = deletes the jwt
 app.get('/auth/logout', (req, res) => {
     console.log('delete jwt request arrived');
-    res.status(202).clearCookie('jwt').json({ "Msg": "cookie cleared" }).send
+    res.status(202).clearCookie('jwt').json({ "Msg": "cookie cleared" });
 });
 
 app.listen(port, () => {

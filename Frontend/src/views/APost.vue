@@ -1,38 +1,51 @@
 <template>
   <div class="A Post">
+    <Header />
     <div id="form">
       <h3>A Post</h3>
-      <label for="title">Title: </label>
-      <input name="type" type="text" id="title" required v-model="post.title" />
       <label for="body">Body: </label>
       <input name="body" type="text" id="body" required v-model="post.body" />
-      <label for="url">Url: </label>
-      <input name="url" type="text" id="url" required v-model="post.urllink" />
+      <p v-if="post.created_at">Created: {{ formatDate(post.created_at) }}</p>
     </div>
     <div class="container">
       <button @click="updatePost" class="updatePost">Update Post</button>
       <button @click="deletePost" class="deletePost">Delete Post</button>
     </div>
+    <Footer />
   </div>
 </template>
 
 
 <script>
+import Header from '../components/Header.vue'
+import Footer from '../components/Footer.vue'
+import auth from "../auth";
 export default {
   name: "APost",
+  components: {
+    Header,
+    Footer
+  },
   data() {
     return {
       post: {
         id: "",
-        title: "",
         body: "",
-        urllink: "",
+        created_at: "",
       },
     };
   },
+  mounted() {
+    if (!auth.authenticated()) {
+      this.$router.push("/api/login");
+    }
+    this.fetchAPost(this.$route.params.id);
+  },
   methods: {
     fetchAPost(id) {
-      fetch(`http://localhost:3000/api/posts/${id}`)
+      fetch(`http://localhost:3000/api/posts/${id}`, {
+        credentials: "include",
+      })
         .then((response) => response.json())
         .then((data) => (this.post = data))
         .catch((err) => console.log(err.message));
@@ -43,34 +56,41 @@ export default {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(this.post),
+        credentials: "include",
+        body: JSON.stringify({ body: this.post.body }),
       })
-        .then((response) => {
-          console.log(response.data);
-          this.$router.push("/api/allposts");
+        .then((response) => response.json())
+        .then(() => {
+          this.$router.push("/");
         })
         .catch((e) => {
           console.log(e);
         });
+    },
+    formatDate(value) {
+      if (!value) return '';
+      const d = new Date(value);
+      if (isNaN(d)) return value;
+      return d.toLocaleString();
     },
     deletePost() {
       fetch(`http://localhost:3000/api/posts/${this.post.id}`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
       })
         .then((response) => {
           console.log(response.data);
-          this.$router.push("/api/allposts");
+          this.$router.push("/");
         })
         .catch((e) => {
           console.log(e);
         });
     },
   },
-  mounted() {
-    this.fetchAPost(this.$route.params.id);
-  },
+
 };
+
 </script>
 
 <style scoped>

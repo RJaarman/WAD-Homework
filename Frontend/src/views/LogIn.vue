@@ -1,31 +1,44 @@
 <template>
+  <Header />
   <div class="form">
     <h3>LogIn</h3>
+    
     <label for="email">Email</label>
     <input type="email" name="email"  required v-model="email">
     <label for="password">Password</label>
     <input type="password" name="password" required v-model="password">
+    <p class="error-msg" v-if="error">{{ error }}</p>
     <div class="container">
       <button @click="LogIn"  class="center">LogIn</button>
-      <button @click='this.$router.push("api/signup")' class="center">Signup</button>
+      <button @click="this.$router.push('/api/signup')" class="center">Signup</button>
     </div>
   </div>
+  <Footer />
 </template>
 
 <script>
+import Header from '../components/Header.vue'
+import Footer from '../components/Footer.vue'
 export default {
 name: "LogIn", 
-
+components: {
+    Header,
+    Footer
+  },
 data: function() {
     return {
    email: '',
    password: '',
+   error: ''
   }
   },
   methods: {
 
 
 LogIn() {
+      // clear previous error
+      this.error = '';
+
       var data = {
         email: this.email,
         password: this.password
@@ -39,15 +52,24 @@ LogIn() {
           credentials: 'include', //  Don't forget to specify this if you need cookies
           body: JSON.stringify(data),
       })
-      .then((response) => response.json())
+      .then(async (response) => {
+        // On any non-OK response show a generic message to avoid exposing details
+        if (!response.ok) {
+          this.error = 'Incorrect email or password';
+          throw new Error(this.error);
+        }
+        const contentType = response.headers.get('content-type') || '';
+        if (contentType.includes('application/json')) return response.json();
+        return {};
+      })
       .then((data) => {
-      console.log(data);
-      //this.$router.push("/");
-      location.assign("/");
+        console.log(data);
+        this.error = '';
+        this.$router.push("/");
       })
       .catch((e) => {
-        console.log(e);
-        console.log("error");
+        console.log('login error', e);
+        if (!this.error) this.error = e.message || 'Login failed';
       });
     },
   }, 

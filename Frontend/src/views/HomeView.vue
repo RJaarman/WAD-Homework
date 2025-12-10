@@ -1,23 +1,36 @@
 <template>
   <div class="header">
+    <Header />
     <div class="container">
     <button v-if = "authResult" @click="Logout" class="center">Logout</button>
     </div>
-    <div class="post-list" v-for="post in posts"   :key="post.index">  
+    <div class="post-list" v-for="post in posts"   :key="post.id" @click="goToPost(post.id)">  
       <div class="post">
-          <h3>  Title:  {{post.title}} </h3>
-          <p>  <b> Body: </b> {{post.body}} </p>
+          <h3 v-if="post.title">  Title:  {{post.title}} </h3>
+          <p>  <b> </b> {{post.body}} </p>
+          <p class="created" v-if="post.created_at">  <small>Created: {{ formatDate(post.created_at) }}</small> </p>
       </div>
     </div>
+    <!-- Bottom action: Add post button -->
+    <div class="bottom-actions">
+      <router-link v-if="authResult" to="/api/addpost" class="add-btn">Add post</router-link>
+    </div>
+    <Footer />
   </div>
 </template>
 
 <script>
+import Header from '../components/Header.vue'
+import Footer from '../components/Footer.vue'
 // @ is an alias to /src
 import auth from "../auth";
 
 export default {
   name: "HomeView",
+  components: {
+    Header,
+    Footer
+  },
   data() {
     return {
       posts:[ ],
@@ -32,7 +45,7 @@ export default {
         .then((response) => response.json())
         .then(() => {
           console.log("jwt removed");
-          this.$router.push("/login");
+          this.$router.push("api/login");
         })
         .catch((e) => console.log("logout error", e));
     },
@@ -46,6 +59,15 @@ export default {
           this.posts = data
         })
         .catch((err) => console.log(err.message));
+    },
+    formatDate(value) {
+      if (!value) return '';
+      const d = new Date(value);
+      if (isNaN(d)) return value;
+      return d.toLocaleString();
+    },
+    goToPost(postId) {
+      this.$router.push(`/api/apost/${postId}`);
     },
   }, 
   mounted() {
@@ -63,7 +85,7 @@ body{
   position: relative;
 }
 .post-list{
-  background: rgb(189, 212, 199);
+  background: rgb(212, 212, 212);
   margin-bottom: 5px;
   padding: 3px 5px;
   border-radius: 10px;
@@ -72,11 +94,11 @@ h3{
     margin: 0;
   padding: 0;
   font-family: 'Quicksand', sans-serif;
-  color: #444;
-  background: #7e9756;
+  color: #000000;
+  background: gray;
 }
 p{
-  background: #796dbd;
+  background: rgb(212, 212, 212);
 }
 h1, h2, h3, h4, ul, li, a, input, label, button, div, footer{
   margin: 0;
@@ -135,5 +157,24 @@ nav{
 .container {
   display: flex;
   justify-content: center;
+}
+
+/* Floating action button */
+.bottom-actions {
+  display: flex;
+  justify-content: center;
+  margin: 18px 0;
+}
+.add-btn {
+  background: #4ea3ff;
+  color: white;
+  padding: 8px 20px;
+  border-radius: 18px;
+  text-decoration: none;
+  font-weight: 700;
+  box-shadow: 0 6px 14px rgba(78,163,255,0.22);
+}
+.add-btn:hover {
+  background: #358fe0;
 }
 </style>

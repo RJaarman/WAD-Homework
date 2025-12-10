@@ -3,7 +3,7 @@ const Pool = require('pg').Pool;
 const pool = new Pool({
     user: "postgres",
     password: "", //add your password
-    database: "testWAD",
+    database: "testwad",
     host: "localhost",
     port: "5432"
 });
@@ -28,9 +28,8 @@ An example of generated uuid:  32165102-4866-4d2d-b90c-7a2fddbb6bc8
 const createTblQuery1 = `
     CREATE TABLE IF NOT EXISTS "posttable" (
     "id" SERIAL PRIMARY KEY,
-    "title" VARCHAR(200) NOT NULL,
-    "body" VARCHAR(200) NOT NULL,
-    "urllink" VARCHAR(200)
+    "body" VARCHAR(1000) NOT NULL,
+    "created_at" TIMESTAMP DEFAULT NOW()
     );`;
 
 const createTblQuery2 = `
@@ -39,7 +38,13 @@ const createTblQuery2 = `
         email VARCHAR(200) NOT NULL UNIQUE,
         password VARCHAR(200) NOT NULL 
     );`;
-
+const migrationQueries = `
+  ALTER TABLE IF EXISTS posttable DROP COLUMN IF EXISTS title;
+  ALTER TABLE IF EXISTS posttable DROP COLUMN IF EXISTS urllink;
+  ALTER TABLE IF EXISTS posttable ADD COLUMN IF NOT EXISTS created_at TIMESTAMP DEFAULT NOW();
+  ALTER TABLE IF EXISTS posttable ALTER COLUMN body TYPE VARCHAR(1000);
+  ALTER TABLE IF EXISTS posttable ALTER COLUMN body SET NOT NULL;
+`;
 execute(createTblQuery1, createTblQuery2).then(result => {
     if (result) {
         console.log('If does not exists, table "users" and  table "posttable" are created');
