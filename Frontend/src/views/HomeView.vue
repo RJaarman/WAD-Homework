@@ -18,39 +18,39 @@ import auth from "../auth";
 
 export default {
   name: "HomeView",
-  components: {
-  },
-   data: function() {
+  data() {
     return {
-    posts:[ ],
-    authResult: auth.authenticated()
-    }
+      posts:[ ],
+      authResult: auth.authenticated()
+    };
   },
   methods: {
     Logout() {
       fetch("http://localhost:3000/auth/logout", {
-          credentials: 'include', //  Don't forget to specify this if you need cookies
+        credentials: "include",
       })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        console.log('jwt removed');
-        //console.log('jwt removed:' + auth.authenticated());
-        this.$router.push("/login");
-        //location.assign("/");
+        .then((response) => response.json())
+        .then(() => {
+          console.log("jwt removed");
+          this.$router.push("/login");
+        })
+        .catch((e) => console.log("logout error", e));
+    },
+    
+    fetchPosts() {
+      fetch("http://localhost:3000/api/posts", {
+        credentials: "include",
       })
-      .catch((e) => {
-        console.log(e);
-        console.log("error logout");
-      });
+        .then((response) => response.json())
+        .then((data) => {
+          this.posts = data
+        })
+        .catch((err) => console.log(err.message));
     },
   }, 
   mounted() {
-        fetch('https://jsonplaceholder.typicode.com/posts')
-        .then((response) => response.json())
-        .then(data => this.posts = data)
-        .catch(err => console.log(err.message))
-    }
+        this.fetchPosts();
+    },
 };
 </script>
 
