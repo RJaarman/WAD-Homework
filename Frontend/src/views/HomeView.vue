@@ -2,7 +2,10 @@
   <div class="header">
     <Header />
     <div class="container">
-    <button v-if = "authResult" @click="Logout" class="center">Logout</button>
+      <button v-if="authResult" @click="Logout" class="center">Logout</button>
+      <button v-if="authResult" @click="deleteAllPosts" class="center delete">
+        Delete All
+      </button>
     </div>
     <div class="post-list" v-for="post in posts"   :key="post.id" @click="goToPost(post.id)">  
       <div class="post">
@@ -69,6 +72,19 @@ export default {
     goToPost(postId) {
       this.$router.push(`/api/apost/${postId}`);
     },
+    deleteAllPosts() {
+      if (!confirm("Are you sure you want to delete ALL posts?")) return;
+
+      fetch("http://localhost:3000/api/posts", {
+        method: "DELETE",
+        credentials: "include",
+      })
+          .then(() => {
+            this.fetchPosts(); // refresh list
+          })
+          .catch(err => console.log(err));
+    },
+
   }, 
   mounted() {
         this.fetchPosts();

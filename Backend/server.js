@@ -23,8 +23,22 @@ const generateJWT = (id) => {
     return jwt.sign({ id }, secret, { expiresIn: maxAge })
         //jwt.sign(payload, secret, [options, callback]), and it returns the JWT as string
 }
+/*
+ Middleware to protect routes.
+ It checks if a valid JWT exists in cookies.
+ Only authenticated users can access protected routes.
+*/
+const requireAuth = (req, res, next) => {
+    const token = req.cookies?.jwt;
+    if (!token) return res.status(401).json({ error: "Not authenticated" });
 
-app.post('/api/posts', async(req, res) => {
+    jwt.verify(token, secret, (err) => {
+        if (err) return res.status(401).json({ error: "Invalid token" });
+        next();
+    });
+};
+
+app.post('/api/posts', requireAuth, async(req, res) => {
     try {
         console.log("a post request has arrived");
         const post = req.body;
@@ -39,7 +53,7 @@ app.post('/api/posts', async(req, res) => {
     }
 });
 
-app.get('/api/posts', async(req, res) => {
+app.get('/api/posts', requireAuth, async(req, res) => {
     try {
         console.log("get posts request has arrived");
         const posts = await pool.query(
@@ -51,7 +65,7 @@ app.get('/api/posts', async(req, res) => {
     }
 });
 
-app.get('/api/posts/:id', async(req, res) => {
+app.get('/api/posts/:id', requireAuth, async(req, res) => {
     try {
         console.log("get a post with route parameter  request has arrived");
         const { id } = req.params;
@@ -64,7 +78,7 @@ app.get('/api/posts/:id', async(req, res) => {
     }
 });
 
-app.put('/api/posts/:id', async(req, res) => {
+app.put('/api/posts/:id', requireAuth, async(req, res) => {
     try {
         const { id } = req.params;
         const post = req.body;
@@ -78,7 +92,7 @@ app.put('/api/posts/:id', async(req, res) => {
     }
 });
 
-app.delete('/api/posts/:id', async(req, res) => {
+app.delete('/api/posts/:id', requireAuth, async(req, res) => {
     try {
         const { id } = req.params;
         console.log("delete a post request has arrived");
@@ -179,6 +193,17 @@ app.post('/auth/login', async(req, res) => {
         res.status(401).json({ error: error.message });
     }
 });
+app.delete('/api/posts', requireAuth, async (req, res) => {
+    try {
+        console.log("delete all posts request arrived");
+        await pool.query("DELETE FROM posttable");
+        res.status(200).json({ msg: "all posts deleted" });
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send(err.message);
+    }
+});
+
 
 //logout a user = deletes the jwt
 app.get('/auth/logout', (req, res) => {
