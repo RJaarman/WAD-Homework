@@ -8,11 +8,12 @@ const pool = new Pool({
     port: "5432"
 });
 
-const execute = async(query1, query2) => {
+const execute = async(query1, query2, query3) => {
     try {
         await pool.connect(); // create a connection
         await pool.query(query1); // executes a query
         await pool.query(query2);
+        await pool.query(query3);
         return true;
     } catch (error) {
         console.error(error.stack);
@@ -28,7 +29,7 @@ An example of generated uuid:  32165102-4866-4d2d-b90c-7a2fddbb6bc8
 const createTblQuery1 = `
     CREATE TABLE IF NOT EXISTS "posttable" (
     "id" SERIAL PRIMARY KEY,
-    "body" VARCHAR(1000) NOT NULL,
+    "body" VARCHAR(200) NOT NULL,
     "created_at" TIMESTAMP DEFAULT NOW()
     );`;
 
@@ -42,10 +43,10 @@ const migrationQueries = `
   ALTER TABLE IF EXISTS posttable DROP COLUMN IF EXISTS title;
   ALTER TABLE IF EXISTS posttable DROP COLUMN IF EXISTS urllink;
   ALTER TABLE IF EXISTS posttable ADD COLUMN IF NOT EXISTS created_at TIMESTAMP DEFAULT NOW();
-  ALTER TABLE IF EXISTS posttable ALTER COLUMN body TYPE VARCHAR(1000);
+  ALTER TABLE IF EXISTS posttable ALTER COLUMN body TYPE VARCHAR(200);
   ALTER TABLE IF EXISTS posttable ALTER COLUMN body SET NOT NULL;
 `;
-execute(createTblQuery1, createTblQuery2).then(result => {
+execute(createTblQuery1, createTblQuery2, migrationQueries).then(result => {
     if (result) {
         console.log('If does not exists, table "users" and  table "posttable" are created');
     }

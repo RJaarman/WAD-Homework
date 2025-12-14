@@ -21,7 +21,7 @@ export default {
   },
    mounted() {
     if (!auth.authenticated()) {
-      this.$router.push("/api/login");
+      this.$router.push("/login");
     }
   },
   data() {

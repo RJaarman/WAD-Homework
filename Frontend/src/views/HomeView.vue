@@ -2,21 +2,18 @@
   <div class="header">
     <Header />
     <div class="container">
-      <button v-if="authResult" @click="Logout" class="center">Logout</button>
-      <button v-if="authResult" @click="deleteAllPosts" class="center delete">
-        Delete All
-      </button>
+      <button v-if="authResult" @click="Logout" class="center logout">Logout</button>
     </div>
-    <div class="post-list" v-for="post in posts"   :key="post.id" @click="goToPost(post.id)">  
-      <div class="post">
-          <h3 v-if="post.title">  Title:  {{post.title}} </h3>
-          <p>  <b> </b> {{post.body}} </p>
+    <div class="post-list">  
+      <div class="post" v-for="post in posts"   :key="post.id" @click="goToPost(post.id)">
+          <p> {{post.body}} </p>
           <p class="created" v-if="post.created_at">  <small>Created: {{ formatDate(post.created_at) }}</small> </p>
       </div>
     </div>
     <!-- Bottom action: Add post button -->
     <div class="bottom-actions">
-      <router-link v-if="authResult" to="/api/addpost" class="add-btn">Add post</router-link>
+      <router-link v-if="authResult" to="/addpost" class="action-btn">Add post</router-link>
+      <button v-if="authResult" @click="deleteAllPosts" class="action-btn">Delete All</button>
     </div>
     <Footer />
   </div>
@@ -48,7 +45,7 @@ export default {
         .then((response) => response.json())
         .then(() => {
           console.log("jwt removed");
-          this.$router.push("api/login");
+          this.$router.push("/login");
         })
         .catch((e) => console.log("logout error", e));
     },
@@ -70,7 +67,7 @@ export default {
       return d.toLocaleString();
     },
     goToPost(postId) {
-      this.$router.push(`/api/apost/${postId}`);
+      this.$router.push(`/apost/${postId}`);
     },
     deleteAllPosts() {
       if (!confirm("Are you sure you want to delete ALL posts?")) return;
@@ -101,45 +98,25 @@ body{
   position: relative;
 }
 .post-list{
-  background: rgb(212, 212, 212);
-  margin-bottom: 5px;
-  padding: 3px 5px;
-  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 70%;
+  margin: 0 auto;
 }
-h3{
-    margin: 0;
-  padding: 0;
-  font-family: 'Quicksand', sans-serif;
-  color: #000000;
-  background: gray;
-}
+
 p{
   background: rgb(212, 212, 212);
 }
-h1, h2, h3, h4, ul, li, a, input, label, button, div, footer{
-  margin: 0;
-  padding: 0;
-  font-family: 'Quicksand', sans-serif;
-  color: #444;
-}
+
 nav{
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
   margin-bottom: 80px;
 }
-input{
-  padding: 10px 12px;
-  border-radius: 4px;
-  border: 1px solid #ddd;
-  font-size: 1em;
-  width: 100%;
-}
-label{
-  display: block;
-  margin: 20px 0 10px;
-}
-button{
+
+.logout {
   margin-top: 30px;
   border-radius: 36px;
   background: #FEE996;
@@ -149,18 +126,22 @@ button{
   display: block;
   padding: 10px 16px;
   letter-spacing: 2px;
+  cursor: pointer;
 }
+
 nav{
   display: flex;
   align-items: center;
 }
+
 .post {
-    width: 80%;
-    position: relative;
-    padding: 10px;
-    margin: 10px auto;
-    border: 1px solid gray;
-    text-align: left;
+  padding: 10px;
+  background: rgb(212, 212, 212);
+  border-radius: 10px;
+  text-align: left;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
 }
 .center {
   margin: auto;
@@ -179,18 +160,34 @@ nav{
 .bottom-actions {
   display: flex;
   justify-content: center;
+  gap: 30px;
   margin: 18px 0;
 }
-.add-btn {
+
+.action-btn {
   background: #4ea3ff;
   color: white;
-  padding: 8px 20px;
-  border-radius: 18px;
-  text-decoration: none;
+  font-family: 'Quicksand', sans-serif;
   font-weight: 700;
+  font-size: 0.9rem;
+  text-decoration: none;
+  padding: 10px 22px;
+  border-radius: 18px;
+  border: 0;
   box-shadow: 0 6px 14px rgba(78,163,255,0.22);
+  cursor: pointer;
 }
-.add-btn:hover {
+
+.action-btn:hover {
   background: #358fe0;
+}
+
+.logout:hover {
+  background: #eed881;
+}
+
+.post:hover {
+  transform: scale(1.05);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 </style>

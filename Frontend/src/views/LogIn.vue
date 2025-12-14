@@ -1,8 +1,7 @@
 <template>
   <Header />
   <div class="form">
-    <h3>LogIn</h3>
-    
+    <h3>Log in</h3>
     <label for="email">Email</label>
     <input type="email" name="email"  required v-model="email">
     <label for="password">Password</label>
@@ -10,7 +9,7 @@
     <p class="error-msg" v-if="error">{{ error }}</p>
     <div class="container">
       <button @click="LogIn"  class="center">LogIn</button>
-      <button @click="this.$router.push('/api/signup')" class="center">Signup</button>
+      <button @click="this.$router.push('/signup')" class="center">Signup</button>
     </div>
   </div>
   <Footer />
@@ -120,10 +119,8 @@ button {
 }
 .center {
   margin: auto;
-  border: 0;
-  padding: 10px 20px;
-  margin-top: 20px;
-  width: 30%; 
+  margin-top: 30px;
+  width: 30%;
 }
 .container {
   display: flex;

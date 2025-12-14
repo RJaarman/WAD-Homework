@@ -6,11 +6,12 @@
       <label for="body">Body: </label>
       <input name="body" type="text" id="body" required v-model="post.body" />
       <p v-if="post.created_at">Created: {{ formatDate(post.created_at) }}</p>
+      <div class="container">
+      <button @click="updatePost" class="center">Update Post</button>
+      <button @click="deletePost" class="center">Delete Post</button>
     </div>
-    <div class="container">
-      <button @click="updatePost" class="updatePost">Update Post</button>
-      <button @click="deletePost" class="deletePost">Delete Post</button>
     </div>
+    
     <Footer />
   </div>
 </template>
@@ -37,7 +38,7 @@ export default {
   },
   mounted() {
     if (!auth.authenticated()) {
-      this.$router.push("/api/login");
+      this.$router.push("/login");
     }
     this.fetchAPost(this.$route.params.id);
   },
@@ -128,12 +129,19 @@ button {
   background: rgb(8, 110, 110);
   border: 0;
   padding: 10px 20px;
-  margin-top: 20px;
   color: white;
   border-radius: 20px;
+  margin: 0px 20px;
 }
+
 .container {
   display: flex;
   justify-content: center;
+}
+
+.center {
+  margin: auto;
+  width: 30%;
+  margin-top: 15px;
 }
 </style>
